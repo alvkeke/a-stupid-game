@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.game.alv.mygame.GameActivity" />
-        <activity android:name="com.game.alv.mygame.HelpActivity" />
     </application>
 
 </manifest>

@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 String playerName = edtName.getText().toString();
                 //新建intnet,将要切换到游戏界面,设置传入参数
                 Intent intentGame = new Intent(MainActivity.this, GameActivity.class);
+                //传入参数确定是实战模式
+                intentGame.putExtra("isHelp", false);
                 intentGame.putExtra("PlayerName", playerName);
                 //显示游戏界面
                 startActivity(intentGame);
@@ -80,9 +82,21 @@ public class MainActivity extends AppCompatActivity {
     class helpBtnOnClick implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            //弹出教程所用的Activity
-            Intent intentHelp = new Intent(MainActivity.this, HelpActivity.class);
-            startActivity(intentHelp);
+            //判断名称是否为空
+            if(edtName.getText().toString().equals("")){
+                //名称为空则弹出警告,不做任何处理
+                Toast.makeText(getApplicationContext(), "Name can not be empty", Toast.LENGTH_SHORT).show();
+            }else{
+                //名称不为空,则获取名称,并将其输入游戏界面
+                String playerName = edtName.getText().toString();
+                //新建intnet,将要切换到游戏界面,设置传入参数
+                Intent intentGame = new Intent(MainActivity.this, GameActivity.class);
+                //传入参数说明是帮助模式
+                intentGame.putExtra("isHelp", true);
+                intentGame.putExtra("PlayerName", playerName);
+                //显示游戏界面
+                startActivity(intentGame);
+            }
         }
     }
 

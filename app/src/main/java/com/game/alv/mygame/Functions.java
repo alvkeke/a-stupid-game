@@ -2,10 +2,22 @@ package com.game.alv.mygame;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public final class Functions {
+
+    //帮助模式的刷新地图
+    public static void newHelpMap(Monster[] m, Player p){
+        //只显示一只怪物
+        for(int i = 1; i<m.length; i++){
+            m[i] = new Monster(-1, 0);
+        }
+
+        //人物所在地图除以三取余数得到怪物种类
+        m[0] = new Monster(13, p.getMap()%3);
+    }
 
     //更新地图
     public static void newMap(Monster[] m, Player p){

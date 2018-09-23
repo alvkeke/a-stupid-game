@@ -1,6 +1,7 @@
 package com.game.alv.mygame;
 
-import android.annotation.SuppressLint;
+
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +31,9 @@ public class GameActivity extends AppCompatActivity {
     public int motivationTime;
     //用于提示消息的控件
     public TextView txtTips;
+    //确定是否是帮助模式
+    boolean isHelp;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +83,26 @@ public class GameActivity extends AppCompatActivity {
         btn_attack.setOnClickListener(new btnAttack());
         btn_define.setOnClickListener(new btnDefine());
 
+        //确定传入参数,确定是否是帮助模式
+        Intent intent = getIntent();
+        isHelp = intent.getBooleanExtra("isHelp", true);
+
         //循环设置图片在下方显示人物
         for(int i = 0; i<14; i++){
             place[i].setScaleType(ImageView.ScaleType.FIT_END);
         }
 
+        //显示关于人物和界面的提示
+        showUserTip();
+
         //新建地图
-        Functions.newMap(m, p);
+        if(isHelp){
+            Functions.newHelpMap(m, p);
+            showTips(m[0].getType());
+            p.setHelpMode();
+        }else {
+            Functions.newMap(m, p);
+        }
 
         //显示玩家和怪物
         Functions.showPlayerAndMonster(place, m, p);
@@ -99,6 +114,33 @@ public class GameActivity extends AppCompatActivity {
         //如果行动数为0会使怪物行动一次
         new Thread(new MonsterAction(GameActivity.this)).start();
 
+    }
+
+    private void showUserTip(){
+        for(String s : Constants.tipsOfPlayer_cn){
+            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showTips(int monsterType){
+        switch (monsterType){
+            case Constants.MONSTER_TYPE_NORMAL:
+                for(String s : Constants.tipsOfMonsterNormal_cn){
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case Constants.MONSTER_TYPE_FIRE:
+                for(String s : Constants.tipsOfMonsterFire_cn){
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case Constants.MONSTER_TYPE_POISON:
+                for(String s : Constants.tipsOfMonsterPoison_cn){
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
     }
 
     //前进按钮事件监听
@@ -115,7 +157,13 @@ public class GameActivity extends AppCompatActivity {
             //人物前进,如果进入新地图建立怪物
             int movReturn = p.moveForward();
             if(movReturn == 1){
-                Functions.newMap(m, p);
+                if(isHelp){
+                    Functions.newHelpMap(m, p);
+                    showTips(m[0].getType());
+                }else {
+                    Functions.newMap(m, p);
+                }
+
             }else if(movReturn == 2){
                 //如果走到地图最尽头,则玩家胜利
                 Toast.makeText(getApplicationContext(), "You Win!!!", Toast.LENGTH_LONG).show();
@@ -130,6 +178,12 @@ public class GameActivity extends AppCompatActivity {
             //当行动次数耗尽时运行
             if(motivationTime == 0){
                 new Thread(new MonsterAction(GameActivity.this)).start();
+            }
+            //判断玩家是否死亡
+            if(p.getHp()<=0){
+                //弹出消息
+                Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_LONG).show();
+                GameActivity.this.finish();
             }
 
         }
@@ -157,6 +211,12 @@ public class GameActivity extends AppCompatActivity {
             //当行动次数耗尽时运行
             if(motivationTime == 0){
                 new Thread(new MonsterAction(GameActivity.this)).start();
+            }
+            //判断玩家是否死亡
+            if(p.getHp()<=0){
+                //弹出消息
+                Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_LONG).show();
+                GameActivity.this.finish();
             }
         }
     }
@@ -191,6 +251,12 @@ public class GameActivity extends AppCompatActivity {
             if(motivationTime == 0){
                 new Thread(new MonsterAction(GameActivity.this)).start();
             }
+            //判断玩家是否死亡
+            if(p.getHp()<=0){
+                //弹出消息
+                Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_LONG).show();
+                GameActivity.this.finish();
+            }
         }
     }
 
@@ -214,6 +280,12 @@ public class GameActivity extends AppCompatActivity {
             //当行动次数耗尽时运行
             if(motivationTime == 0){
                 new Thread(new MonsterAction(GameActivity.this)).start();
+            }
+            //判断玩家是否死亡
+            if(p.getHp()<=0){
+                //弹出消息
+                Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_LONG).show();
+                GameActivity.this.finish();
             }
         }
     }

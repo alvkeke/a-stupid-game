@@ -32,6 +32,10 @@ public class Player{
         poisonHurtTime = 0;
     }
 
+    public void setHelpMode(){
+        hp = 100000;
+    }
+
     public void setPlace(int place) {
         this.place = place;
     }

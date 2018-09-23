@@ -1,5 +1,7 @@
 package com.game.alv.mygame;
 
+import android.graphics.Bitmap;
+
 import java.util.Random;
 
 public class Monster{
@@ -18,15 +20,15 @@ public class Monster{
         //根据怪物种类设置怪物的血量
         switch (type){
             case Constants.MONSTER_TYPE_NORMAL:
-                hp = 60;
+                hp = Constants.MONSTER_HP_NORMAL;
                 hitDistance = 1;
                 break;
             case Constants.MONSTER_TYPE_FIRE:
-                hp = 30;
+                hp = Constants.MONSTER_HP_FIRE;
                 hitDistance = 2;
                 break;
             case Constants.MONSTER_TYPE_POISON:
-                hp = 40;
+                hp = Constants.MONSTER_HP_POISON;
                 hitDistance = 1;
                 break;
         }
@@ -36,6 +38,27 @@ public class Monster{
         if(place>0) place+=2;
     }
 
+    Monster(int placeIn, int typeIn){
+        //根据传入的数据设置位置
+        place = placeIn;
+        //和怪物类型
+        type = typeIn;
+        //根据怪物种类设置怪物的血量
+        switch (type){
+            case Constants.MONSTER_TYPE_NORMAL:
+                hp = Constants.MONSTER_HP_NORMAL;
+                hitDistance = 1;
+                break;
+            case Constants.MONSTER_TYPE_FIRE:
+                hp = Constants.MONSTER_HP_FIRE;
+                hitDistance = 2;
+                break;
+            case Constants.MONSTER_TYPE_POISON:
+                hp = Constants.MONSTER_HP_POISON;
+                hitDistance = 1;
+                break;
+        }
+    }
 
 
     public void Action(Player player, Monster[] m){

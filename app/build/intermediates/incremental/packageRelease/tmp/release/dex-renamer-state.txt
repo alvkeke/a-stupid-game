@@ -1,0 +1,4 @@
+#Sun Sep 23 23:11:47 CST 2018
+base.0=/media/alvis/mydata/workspace/Android-studio/mygame/app/build/intermediates/transforms/dexMerger/release/0
+path.0=classes.dex
+renamed.0=classes.dex
