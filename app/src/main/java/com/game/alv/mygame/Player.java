@@ -62,7 +62,7 @@ public class Player extends Constants{
     }
 
     //向后走
-    public int moveBackward(){
+    public void moveBackward(){
         //解除防御
         setDefense(false);
         //设置方向为向后
@@ -79,10 +79,10 @@ public class Player extends Constants{
             //如果人物在左边缘,则地图页面减1,人物到达右边缘
             place = 13;
             map--;
-            return  1;
+            //return  1;
         }
 
-        return 0;
+        //return 0;
     }
 
     //攻击敌人
@@ -145,10 +145,8 @@ public class Player extends Constants{
 
             }
         }
-
         //受到伤害
         hp-=hpDec;
-
 
     }
 

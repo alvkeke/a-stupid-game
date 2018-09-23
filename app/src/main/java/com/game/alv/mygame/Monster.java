@@ -101,9 +101,4 @@ public class Monster extends Constants{
         return type;
     }
 
-    public void died(Player p){
-        //获得金钱
-        p.gainMoney((type+1)*10);
-        place = -1;
-    }
 }

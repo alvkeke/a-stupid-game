@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.LoginFilter;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -180,6 +179,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    //更新地图
     private void newMap(){
         //刷新怪物
         for(int i = 0; i<m.length; i++){
@@ -195,6 +195,7 @@ public class GameActivity extends AppCompatActivity {
         p.setPlace(0);
     }
 
+    //刷新界面的函数
     private void showPlayerAndMonster() {
         //消除其他图片
         for(int i = 0; i<14; i++){
@@ -236,18 +237,18 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if(p.getDirection() == 1){
-            if(!p.isDefense()){
+            if(p.isDefense()){
                 //显示人物
-                place[p.getPlace()].setImageResource(R.drawable.player_noweapon);
-            }else{
                 place[p.getPlace()].setImageResource(R.drawable.player_define);
+            }else{
+                place[p.getPlace()].setImageResource(R.drawable.player_noweapon);
             }
         }else{
-            if(!p.isDefense()){
+            if(p.isDefense()){
                 //显示人物
-                place[p.getPlace()].setImageResource(R.drawable.player_noweapon_back);
-            }else{
                 place[p.getPlace()].setImageResource(R.drawable.player_define_back);
+            }else{
+                place[p.getPlace()].setImageResource(R.drawable.player_noweapon_back);
             }
         }
 
@@ -255,6 +256,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    //前进按钮事件监听
     class btnForward implements View.OnClickListener{
 
         @Override
@@ -265,8 +267,6 @@ public class GameActivity extends AppCompatActivity {
             }
             //行动次数减一
             motivationTime--;
-            //消除原本人物站立位置的图像
-            place[p.getPlace()].setImageBitmap(null);
             //人物前进,如果进入新地图建立怪物
             int movReturn = p.moveForward();
             if(movReturn == 1){
@@ -286,6 +286,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //后退按钮事件监听
     class btnBackward implements View.OnClickListener{
 
         @Override
@@ -307,6 +308,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //攻击按钮事件监听
     class btnAttack implements View.OnClickListener{
 
         @Override
@@ -323,6 +325,9 @@ public class GameActivity extends AppCompatActivity {
                 if((aM.getPlace() - p.getPlace())*p.getDirection()>=0 && Math.abs(aM.getPlace() - p.getPlace())<=p.getHitDistance()){
                     //在攻击范围内的所有怪物受到伤害
                     aM.wasHit(p.hit());
+                    if(aM.getHp()<=0){
+                        p.gainMoney(10*(aM.getType()+1));
+                    }
                 }
             }
             //更新状态栏状态
@@ -332,6 +337,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //防御按钮事件监听
     class btnDefine implements View.OnClickListener{
 
         @Override
@@ -403,10 +409,17 @@ public class GameActivity extends AppCompatActivity {
     //算出人物行动次数
     private void resetMotivationTime(){
         Random random = new Random();
-        //1/4无行动,1/2一次行动,1/4两次行动
-        motivationTime = (random.nextInt(4) + 2);
-        if(random.nextInt(100)<5){
+        //不同的行动次数有不同的概率
+        motivationTime = (random.nextInt(3) + 1);
+        int ir = random.nextInt(100);
+        if(ir < 5){
             motivationTime = 0;
+        }else if(ir > 95) {
+            motivationTime *= 2;
+        }else if(ir >90 && ir<95){
+            motivationTime+=1;
+        }else if(ir >85 && ir<90){
+            motivationTime-=1;
         }
     }
 
