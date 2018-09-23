@@ -29,12 +29,21 @@
 
         <Button
             android:id="@+id/btn_start"
+            android:text="@string/main_btn_caption_start"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_help"
+            android:text="@string/main_btn_caption_help"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btn_end"
+            android:text="@string/main_btn_caption_exit"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

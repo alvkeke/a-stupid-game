@@ -2,7 +2,7 @@ package com.game.alv.mygame;
 
 import java.util.Random;
 
-public class Monster extends Constants{
+public class Monster{
 
     //定义怪物属性变量
     private int hp;
@@ -17,15 +17,15 @@ public class Monster extends Constants{
         type = random.nextInt(3);
         //根据怪物种类设置怪物的血量
         switch (type){
-            case MONSTER_TYPE_NORMAL:
+            case Constants.MONSTER_TYPE_NORMAL:
                 hp = 60;
                 hitDistance = 1;
                 break;
-            case MONSTER_TYPE_FIRE:
+            case Constants.MONSTER_TYPE_FIRE:
                 hp = 30;
                 hitDistance = 2;
                 break;
-            case MONSTER_TYPE_POISON:
+            case Constants.MONSTER_TYPE_POISON:
                 hp = 40;
                 hitDistance = 1;
                 break;

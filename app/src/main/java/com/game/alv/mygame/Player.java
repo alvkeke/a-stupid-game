@@ -2,7 +2,7 @@ package com.game.alv.mygame;
 
 
 
-public class Player extends Constants{
+public class Player{
 
     //定义玩家属性变量
     private int hp;
@@ -27,7 +27,7 @@ public class Player extends Constants{
         special = 0;
         place = 0;
         map = 0;
-        direction = PLAYER_DIRECTION_FORWARD;
+        direction = Constants.PLAYER_DIRECTION_FORWARD;
         hitDistance = 1;
         poisonHurtTime = 0;
     }
@@ -41,20 +41,20 @@ public class Player extends Constants{
         //解除防御
         setDefense(false);
         //设置方向为向前
-        direction = PLAYER_DIRECTION_FORWARD;
+        direction = Constants.PLAYER_DIRECTION_FORWARD;
         //如果处于中毒状态,则每次行动扣血
         if(poisonHurtTime-->0){
-            hp-=POISON_HURT;
+            hp-=Constants.POISON_HURT;
         }
         //判断是否到地图尽头
         if(place < 13){
             place++;
-        }else if(place ==13 && map< MAP_MAX_NUMBER){
+        }else if(place ==13 && map< Constants.MAP_MAX_NUMBER){
             //如果在地图右边缘
             place = 0;
             map++;
             return 1;
-        }else if(place == 13 && map == MAP_MAX_NUMBER){
+        }else if(place == 13 && map == Constants.MAP_MAX_NUMBER){
             //胜利返回12
             return 2;
         }
@@ -66,10 +66,10 @@ public class Player extends Constants{
         //解除防御
         setDefense(false);
         //设置方向为向后
-        direction = PLAYER_DIRECTION_BACKWARD;
+        direction = Constants.PLAYER_DIRECTION_BACKWARD;
         //如果处于中毒状态,则每次行动扣血
         if(poisonHurtTime-->0){
-            hp-=POISON_HURT;
+            hp-=Constants.POISON_HURT;
         }
         //判断人物位置
         if(place > 0){
@@ -90,18 +90,18 @@ public class Player extends Constants{
         //解除防御
         setDefense(false);
         switch (weapon){
-            case WEAPON_TYPE_NONE:
-                return WEAPON_HIT_NONE;
-            case WEAPON_TYPE_KNIFE:
-                return WEAPON_HIT_KNIFE;
-            case WEAPON_TYPE_SWORD:
-                return WEAPON_HIT_SWORD;
-            case WEAPON_TYPE_BOW:
-                return WEAPON_HIT_BOW;
+            case Constants.WEAPON_TYPE_NONE:
+                return Constants.WEAPON_HIT_NONE;
+            case Constants.WEAPON_TYPE_KNIFE:
+                return Constants.WEAPON_HIT_KNIFE;
+            case Constants.WEAPON_TYPE_SWORD:
+                return Constants.WEAPON_HIT_SWORD;
+            case Constants.WEAPON_TYPE_BOW:
+                return Constants.WEAPON_HIT_BOW;
         }
         //如果处于中毒状态,则每次行动扣血
         if(poisonHurtTime-->0){
-            hp-=POISON_HURT;
+            hp-=Constants.POISON_HURT;
         }
         return 10;
     }
@@ -112,14 +112,14 @@ public class Player extends Constants{
         //收到伤害量
         int hpDec = 0;
         switch (monster){
-            case MONSTER_TYPE_NORMAL:
-                hpDec = MONSTER_HIT_NORMAL;
+            case Constants.MONSTER_TYPE_NORMAL:
+                hpDec = Constants.MONSTER_HIT_NORMAL;
                 break;
-            case MONSTER_TYPE_FIRE:
-                hpDec = MONSTER_HIT_FIRE;
+            case Constants.MONSTER_TYPE_FIRE:
+                hpDec = Constants.MONSTER_HIT_FIRE;
                 break;
-            case MONSTER_TYPE_POISON:
-                hpDec = MONSTER_HIT_POISON;
+            case Constants.MONSTER_TYPE_POISON:
+                hpDec = Constants.MONSTER_HIT_POISON;
                 //如果不处于中毒状态则中毒
                 if(!defense){
                     poisonHurtTime = 5;
@@ -155,7 +155,7 @@ public class Player extends Constants{
         this.defense = defense;
         //如果处于中毒状态,则每次行动扣血
         if(poisonHurtTime-->0){
-            hp-=POISON_HURT;
+            hp-=Constants.POISON_HURT;
         }
     }
 

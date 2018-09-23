@@ -48,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
         //获取视图上的按钮
         Button btn_start = findViewById(R.id.btn_start);
         Button btn_end = findViewById(R.id.btn_end);
+        Button btn_help = findViewById(R.id.btn_help);
         //添加按钮监听事件
         btn_start.setOnClickListener(new startBtnOnClick());
         btn_end.setOnClickListener(new endBtnOnClick());
+        btn_help.setOnClickListener(new helpBtnOnClick());
 
     }
 
@@ -73,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    class helpBtnOnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            //弹出教程所用的Activity
+            Intent intentHelp = new Intent(MainActivity.this, HelpActivity.class);
+            startActivity(intentHelp);
+        }
     }
 
     //结束游戏按钮监听类

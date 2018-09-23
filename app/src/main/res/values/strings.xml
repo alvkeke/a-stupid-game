@@ -4,4 +4,7 @@
     <string name="game_btn_caption_forward">ForWard</string>
     <string name="game_btn_caption_attack">Attack</string>
     <string name="game_btn_caption_define">Define</string>
+    <string name="main_btn_caption_start">Start</string>
+    <string name="main_btn_caption_help">help</string>
+    <string name="main_btn_caption_exit">Exit</string>
 </resources>
