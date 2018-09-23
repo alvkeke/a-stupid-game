@@ -96,86 +96,9 @@ public class GameActivity extends AppCompatActivity {
         resetMotivationTime();
         //显示状态栏
         showInformation(p);
-
-
-        //建立游戏控制主线程
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(p.getHp()>0){
-                    //如果行动次数大于0,则跳过
-                    if(motivationTime>0)continue;
-                    //提示玩家轮到怪物行动
-                    GameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //刷新界面
-                            showPlayerAndMonster();
-                            showInformation(p);
-                        }
-                    });
-                    //暂停半秒钟
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //怪物行动,中间时间间隔
-                    for (Monster aM : m) {
-                        if (aM.getPlace() >= 0) {
-                            aM.Action(p, m);
-                            //刷新界面
-                            GameActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showPlayerAndMonster();
-                                    showInformation(p);
-                                }
-                            });
-                            //每一个怪物行动一次就暂停半秒钟
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            aM.setHitting(false);
-                            //刷新界面
-                            GameActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showPlayerAndMonster();
-                                    showInformation(p);
-                                }
-                            });
-                        }
-                    }
-
-                    //重设行动次数
-                    resetMotivationTime();
-
-                    //更新状态栏
-                    GameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //更新图形界面
-                            showPlayerAndMonster();
-                            //更新信息栏
-                            showInformation(p);
-                        }
-                    });
-                }
-                //玩家死亡
-                GameActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_SHORT).show();
-                        CharSequence sTips = "You Lose.";
-                        txtTips.setText(sTips);
-                    }
-                });
-                GameActivity.this.finish();
-            }
-        }).start();
+        //防止开始是玩家行动数为0,让怪物行动线程先运行一次,如果行动数不为0会直接退出线程而不做任何行动
+        //如果行动数为0会使怪物行动一次
+        new Thread(new MonsterAction()).start();
 
     }
 
@@ -282,6 +205,10 @@ public class GameActivity extends AppCompatActivity {
             showPlayerAndMonster();
             //显示人物状态
             showInformation(p);
+            //当行动次数耗尽时运行
+            if(motivationTime == 0){
+                new Thread(new MonsterAction()).start();
+            }
 
         }
     }
@@ -305,6 +232,10 @@ public class GameActivity extends AppCompatActivity {
             showPlayerAndMonster();
             //显示人物状态
             showInformation(p);
+            //当行动次数耗尽时运行
+            if(motivationTime == 0){
+                new Thread(new MonsterAction()).start();
+            }
         }
     }
 
@@ -334,6 +265,10 @@ public class GameActivity extends AppCompatActivity {
             showInformation(p);
             //更新画面
             showPlayerAndMonster();
+            //当行动次数耗尽时运行
+            if(motivationTime == 0){
+                new Thread(new MonsterAction()).start();
+            }
         }
     }
 
@@ -354,6 +289,10 @@ public class GameActivity extends AppCompatActivity {
             showPlayerAndMonster();
             //更新状态栏状态
             showInformation(p);
+            //当行动次数耗尽时运行
+            if(motivationTime == 0){
+                new Thread(new MonsterAction()).start();
+            }
         }
     }
 
@@ -408,6 +347,7 @@ public class GameActivity extends AppCompatActivity {
 
     //算出人物行动次数
     private void resetMotivationTime(){
+
         Random random = new Random();
         //不同的行动次数有不同的概率
         motivationTime = (random.nextInt(3) + 1);
@@ -420,6 +360,98 @@ public class GameActivity extends AppCompatActivity {
             motivationTime+=1;
         }else if(ir >85 && ir<90){
             motivationTime-=1;
+        }
+    }
+
+
+    //怪物行动线程,必须使用这种线程才能实时的更新画面
+    //如果直接使用GameActivity.this.runOnUiThread就会出现所有延时都完成后再更新界面的情况
+    class MonsterAction implements Runnable{
+
+        @Override
+        public void run() {
+
+            //判断建立线程时玩家行动数是否为0,如果为0则退出
+            if(motivationTime>0)return;
+
+            //提示玩家轮到怪物行动
+            GameActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //刷新界面
+                    showPlayerAndMonster();
+                    showInformation(p);
+                }
+            });
+
+            //怪物行动,中间时间间隔
+            for (Monster aM : m) {
+                if (aM.getPlace() >= 0) {
+                    //休眠三百毫秒,
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    aM.Action(p, m);
+                    //刷新界面
+                    GameActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showPlayerAndMonster();
+                            showInformation(p);
+                        }
+                    });
+                    //此次休眠两百毫秒
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    aM.setHitting(false);
+                    //刷新界面
+                    GameActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showPlayerAndMonster();
+                            showInformation(p);
+                        }
+                    });
+                }
+            }
+
+            //重设行动次数
+            resetMotivationTime();
+
+            //更新状态栏
+            GameActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //更新图形界面
+                    showPlayerAndMonster();
+                    //更新信息栏
+                    showInformation(p);
+                }
+            });
+
+            //判断玩家是否死亡
+            if(p.getHp()<=0){
+                //玩家死亡,发送玩家死亡的通知,并结束进程
+                GameActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //弹出消息
+                        Toast.makeText(getApplicationContext(), "You Lose.", Toast.LENGTH_LONG).show();
+                        //结束游戏
+                        GameActivity.this.finish();
+                    }
+                });
+            }
+
+            //如果玩家行动被跳过,则再执行一次线程
+            if (motivationTime == 0){
+                new Thread(new MonsterAction()).start();
+            }
         }
     }
 
