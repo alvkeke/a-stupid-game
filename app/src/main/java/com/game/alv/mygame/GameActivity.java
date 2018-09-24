@@ -92,14 +92,16 @@ public class GameActivity extends AppCompatActivity {
             place[i].setScaleType(ImageView.ScaleType.FIT_END);
         }
 
-        //显示关于人物和界面的提示
-        showUserTip();
+
 
         //新建地图
         if(isHelp){
+            //显示关于人物和界面的提示，如果是帮组模式才显示提示
+            showUserTip();
             Functions.newHelpMap(m, p);
             showTips(m[0].getType());
             p.setHelpMode();
+
         }else {
             Functions.newMap(m, p);
         }
@@ -117,12 +119,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showUserTip(){
+        //显示游戏玩法的提示，提示的内容存放在Constants中
         for(String s : Constants.tipsOfPlayer_cn){
             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showTips(int monsterType){
+        //新建帮助地图时，根据怪物显示关于怪物的提示，
+        //提示完全存在于Constants中
         switch (monsterType){
             case Constants.MONSTER_TYPE_NORMAL:
                 for(String s : Constants.tipsOfMonsterNormal_cn){

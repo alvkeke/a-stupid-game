@@ -44,7 +44,7 @@ public final class Functions {
             //清空怪物图像
             place[i].setBackground(null);
         }
-        //显示现在新的颜色
+        //显示现在新的图片
         for (Monster aM : m) {
             if (aM.getPlace() >= 0) {
                 //将怪物图像设置为背景,使得人物可以和怪物共存
@@ -52,6 +52,7 @@ public final class Functions {
                     switch (aM.getType()) {
                         case 0:
                             place[aM.getPlace()].setBackgroundResource(R.drawable.monster_normal_hitting);
+
                             break;
                         case 1:
                             place[aM.getPlace()].setBackgroundResource(R.drawable.monster_fire_hitting);
