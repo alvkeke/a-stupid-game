@@ -15,9 +15,11 @@ import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
 
-
+    //TODO:获取视图上背景图片的控件，用于显示北京图片
+    //public ImageView imgBackground;
     //人站立的位置
     public ImageView[] place = new ImageView[14];
+    public ImageView[] place_p = new ImageView[14];
     //人物
     public Player p;
     //怪物
@@ -46,7 +48,9 @@ public class GameActivity extends AppCompatActivity {
         //设置横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        //取得位置
+        //TODO:获取视图上的控件
+        //imgBackground = findViewById(R.id.img_gameMap);
+        //怪物活动位置
         place[0] = findViewById(R.id.img_place_1);
         place[1] = findViewById(R.id.img_place_2);
         place[2] = findViewById(R.id.img_place_3);
@@ -61,6 +65,21 @@ public class GameActivity extends AppCompatActivity {
         place[11] = findViewById(R.id.img_place_12);
         place[12] = findViewById(R.id.img_place_13);
         place[13] = findViewById(R.id.img_place_14);
+        //玩家活动位置
+        place_p[0] = findViewById(R.id.img_place_p_1);
+        place_p[1] = findViewById(R.id.img_place_p_2);
+        place_p[2] = findViewById(R.id.img_place_p_3);
+        place_p[3] = findViewById(R.id.img_place_p_4);
+        place_p[4] = findViewById(R.id.img_place_p_5);
+        place_p[5] = findViewById(R.id.img_place_p_6);
+        place_p[6] = findViewById(R.id.img_place_p_7);
+        place_p[7] = findViewById(R.id.img_place_p_8);
+        place_p[8] = findViewById(R.id.img_place_p_9);
+        place_p[9] = findViewById(R.id.img_place_p_10);
+        place_p[10] = findViewById(R.id.img_place_p_11);
+        place_p[11] = findViewById(R.id.img_place_p_12);
+        place_p[12] = findViewById(R.id.img_place_p_13);
+        place_p[13] = findViewById(R.id.img_place_p_14);
 
         //初始化人物
         p = new Player();
@@ -90,9 +109,8 @@ public class GameActivity extends AppCompatActivity {
         //循环设置图片在下方显示人物
         for(int i = 0; i<14; i++){
             place[i].setScaleType(ImageView.ScaleType.FIT_END);
+            place_p[i].setScaleType(ImageView.ScaleType.FIT_END);
         }
-
-
 
         //新建地图
         if(isHelp){
@@ -107,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         //显示玩家和怪物
-        Functions.showPlayerAndMonster(place, m, p);
+        Functions.showPlayerAndMonster(place, place_p, m, p);
         //重设玩家行动次数
         motivationTime = Functions.resetMotivationTime();
         //更新状态栏状态
@@ -177,7 +195,7 @@ public class GameActivity extends AppCompatActivity {
             }
 
             //更新画面
-            Functions.showPlayerAndMonster(place, m, p);
+            Functions.showPlayerAndMonster(place, place_p, m, p);
             //更新状态栏状态
             Functions.showInformation(p, motivationTime, txtMap, txtPlayer, txtGoods, txtSystem, txtTips);
             //当行动次数耗尽时运行
@@ -210,7 +228,7 @@ public class GameActivity extends AppCompatActivity {
             //人物后退
             p.moveBackward();
             //更新画面
-            Functions.showPlayerAndMonster(place, m, p);
+            Functions.showPlayerAndMonster(place, place_p, m, p);
             //更新状态栏状态
             Functions.showInformation(p, motivationTime, txtMap, txtPlayer, txtGoods, txtSystem, txtTips);
             //当行动次数耗尽时运行
@@ -231,6 +249,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+
             //判断行动次数是否大于0,如果没有行动次数则不处理此次动作
             if(motivationTime<=0){
                 return;
@@ -249,7 +268,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
             //更新画面
-            Functions.showPlayerAndMonster(place, m, p);
+            Functions.showPlayerAndMonster(place, place_p, m, p);
             //更新状态栏状态
             Functions.showInformation(p, motivationTime, txtMap, txtPlayer, txtGoods, txtSystem, txtTips);
             //当行动次数耗尽时运行
@@ -279,7 +298,7 @@ public class GameActivity extends AppCompatActivity {
             //设置人物防御
             p.setDefense(true);
             //更新画面
-            Functions.showPlayerAndMonster(place, m, p);
+            Functions.showPlayerAndMonster(place, place_p, m, p);
             //更新状态栏状态
             Functions.showInformation(p, motivationTime, txtMap, txtPlayer, txtGoods, txtSystem, txtTips);
             //当行动次数耗尽时运行

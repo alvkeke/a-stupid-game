@@ -2,7 +2,6 @@ package com.game.alv.mygame;
 
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Random;
 
@@ -36,60 +35,61 @@ public final class Functions {
     }
 
     //刷新界面的函数
-    public static void showPlayerAndMonster(ImageView[] place, Monster[] m, Player p) {
+    public static void showPlayerAndMonster(ImageView[] place_m, ImageView[] place_p, Monster[] m, Player p) {
         //消除其他图片
         for(int i = 0; i<14; i++){
-            //清空人物图像
-            place[i].setImageBitmap(null);
             //清空怪物图像
-            place[i].setBackground(null);
+            place_m[i].setImageBitmap(null);
+            //清空人物图像
+            place_p[i].setImageBitmap(null);
         }
         //显示现在新的图片
         for (Monster aM : m) {
             if (aM.getPlace() >= 0) {
-                //将怪物图像设置为背景,使得人物可以和怪物共存
+                //在怪物显示的imageView组里显示怪物
                 if(aM.isHitting()){
                     switch (aM.getType()) {
                         case 0:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_normal_hitting);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_normal_hitting);
 
                             break;
                         case 1:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_fire_hitting);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_fire_hitting);
                             break;
                         case 2:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_poison_hitting);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_poison_hitting);
                             break;
                     }
                 }else{
                     switch (aM.getType()) {
                         case 0:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_normal);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_normal);
                             break;
                         case 1:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_fire);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_fire);
                             break;
                         case 2:
-                            place[aM.getPlace()].setBackgroundResource(R.drawable.monster_poison);
+                            place_m[aM.getPlace()].setImageResource(R.drawable.monster_poison);
                             break;
                     }
                 }
             }
         }
 
+        //人物在前面的imageView组里显示
         if(p.getDirection() == 1){
             if(p.isDefense()){
                 //显示人物
-                place[p.getPlace()].setImageResource(R.drawable.player_define);
+                place_p[p.getPlace()].setImageResource(R.drawable.player_define);
             }else{
-                place[p.getPlace()].setImageResource(R.drawable.player_noweapon);
+                place_p[p.getPlace()].setImageResource(R.drawable.player_noweapon);
             }
         }else{
             if(p.isDefense()){
                 //显示人物
-                place[p.getPlace()].setImageResource(R.drawable.player_define_back);
+                place_p[p.getPlace()].setImageResource(R.drawable.player_define_back);
             }else{
-                place[p.getPlace()].setImageResource(R.drawable.player_noweapon_back);
+                place_p[p.getPlace()].setImageResource(R.drawable.player_noweapon_back);
             }
         }
 

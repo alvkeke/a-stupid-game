@@ -25,7 +25,7 @@ class MonsterAction implements Runnable {
             @Override
             public void run() {
                 //刷新界面
-                Functions.showPlayerAndMonster(gameActivity.place, gameActivity.m, gameActivity.p);
+                Functions.showPlayerAndMonster(gameActivity.place, gameActivity.place_p, gameActivity.m, gameActivity.p);
                 Functions.showInformation(gameActivity.p, gameActivity.motivationTime, gameActivity.txtMap, gameActivity.txtPlayer,
                         gameActivity.txtGoods, gameActivity.txtSystem, gameActivity.txtTips);
             }
@@ -46,7 +46,7 @@ class MonsterAction implements Runnable {
                     @Override
                     public void run() {
                         //刷新界面
-                        Functions.showPlayerAndMonster(gameActivity.place, gameActivity.m, gameActivity.p);
+                        Functions.showPlayerAndMonster(gameActivity.place, gameActivity.place_p, gameActivity.m, gameActivity.p);
                         Functions.showInformation(gameActivity.p, gameActivity.motivationTime, gameActivity.txtMap, gameActivity.txtPlayer,
                                 gameActivity.txtGoods, gameActivity.txtSystem, gameActivity.txtTips);
                     }
@@ -63,7 +63,7 @@ class MonsterAction implements Runnable {
                     @Override
                     public void run() {
                         //刷新界面
-                        Functions.showPlayerAndMonster(gameActivity.place, gameActivity.m, gameActivity.p);
+                        Functions.showPlayerAndMonster(gameActivity.place, gameActivity.place_p, gameActivity.m, gameActivity.p);
                         Functions.showInformation(gameActivity.p, gameActivity.motivationTime, gameActivity.txtMap, gameActivity.txtPlayer,
                                 gameActivity.txtGoods, gameActivity.txtSystem, gameActivity.txtTips);
                     }
@@ -97,7 +97,7 @@ class MonsterAction implements Runnable {
             @Override
             public void run() {
                 //刷新界面
-                Functions.showPlayerAndMonster(gameActivity.place, gameActivity.m, gameActivity.p);
+                Functions.showPlayerAndMonster(gameActivity.place, gameActivity.place_p, gameActivity.m, gameActivity.p);
                 Functions.showInformation(gameActivity.p, gameActivity.motivationTime, gameActivity.txtMap, gameActivity.txtPlayer,
                         gameActivity.txtGoods, gameActivity.txtSystem, gameActivity.txtTips);
             }
